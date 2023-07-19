@@ -18,6 +18,7 @@
 # include <stdarg.h>
 # include <stdlib.h>
 # include "libft/libft.h"
+# include "get_next_line/get_next_line_bonus.h"
 # ifdef __APPLE__
 #  define NULLSTRING "(null)"
 #  define NULLPOINTER "0x0"

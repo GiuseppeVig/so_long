@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:56:59 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/07/14 02:41:30 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/07/16 12:34:14 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 # define SO_LONG_H
 
 # include <mlx.h>
-# include "./ft_printf/ft_printf.h"
-# include "./ft_printf/get_next_line/get_next_line_bonus.h"
+# include "ft_printf/ft_printf.h"
+# include "ft_printf/get_next_line/get_next_line_bonus.h"
 # include <math.h>
+# include <unistd.h>
+# include <fcntl.h>
 
 typedef struct space
 {
-    int position_x;
-    int position_y;    
+    int	position_x;
+    int	position_y;
 }				vec2D;
 
 typedef	struct images
@@ -46,12 +48,6 @@ typedef struct npc
 	vec2D	movement;
 }				enemies;
 
-typedef	struct map
-{
-	sprites	objects;
-	int		collider;
-}				maps;
-
 typedef struct pc
 {
 	vec2D	position;
@@ -60,6 +56,28 @@ typedef struct pc
 	int		hit;
 }				player;
 
-int	check_map_shape(char *location, char *name);
+typedef	struct map
+{
+	sprites			object;
+	collectables	coll;
+	enemies			frieza;
+	player			goku;
+	char			**matrix;
+	char			*path;
+	int				collider;
+}				maps;
+
+enum	keys
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT,
+	SPACE,
+	ESC,
+	X,	
+};
+
+int	check_map_shape(maps m);
 
 #endif

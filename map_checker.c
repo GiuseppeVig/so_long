@@ -6,21 +6,26 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 15:13:50 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/07/11 14:31:43 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/07/16 13:31:45 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	check_map_shape(char *location, char *name)
+// char	read_map(char *location)
+// {
+	
+// }
+
+int	check_map_shape(maps m)
 {
 	int	fd;
 	int	len;
 	int	compare;
 	
-	fd = open(ft_strjoin(location, name));
-	len = ft_strlen(get_next_line_bonus(fd));
-	compare = ft_strlen(get_next_line_bonus(fd));
+	fd = open(m.path, O_RDONLY);
+	len = ft_strlen(get_next_line(fd));
+	compare = ft_strlen(get_next_line(fd));
 	while (compare)
 	{
 		if (compare != len)
@@ -28,14 +33,15 @@ int	check_map_shape(char *location, char *name)
 			ft_printf("Invalid map Format");	
 			return (0);
 		}
-		compare = ft_strlen(get_next_line_bonus(fd));
+		compare = ft_strlen(get_next_line(fd));
 	}
 	close(fd);
 	return (1);
 }
 
-int	open_walls(char *location)
-{
-	char	**map;
-		
-}
+// int	open_walls(char *location)
+// {
+// 	char	**map;
+
+// 	map = read_map(location);
+// }

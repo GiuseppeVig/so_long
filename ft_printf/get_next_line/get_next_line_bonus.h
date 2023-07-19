@@ -17,8 +17,7 @@
 # include <unistd.h>
 # include <stddef.h>
 # include "../libft/libft.h"
-
-# define BUFFER_SIZE 4096;
+# define BUFFER_SIZE 1000;
 
 char	*get_next_line_bonus(int fd);
 char	*read_line(int fd, char *c);

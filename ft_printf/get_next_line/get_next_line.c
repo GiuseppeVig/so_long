@@ -17,13 +17,13 @@ char	*read_line(int fd, char *c)
 	char	*str;
 	int		i;
 
-	str = (char *)malloc(BUFFER_SIZE + 1);
+	str = (char *)malloc(1000 + 1);
 	if (!str)
 		return (0);
 	i = 1;
 	while (!has_new_line(c) && i != 0)
 	{
-		i = read(fd, str, BUFFER_SIZE);
+		i = read(fd, str, 1000);
 		if (i == -1)
 		{
 			free(str);
@@ -46,7 +46,7 @@ char	*get_next_line(int fd)
 	static char	*line;
 	char		*output;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || 1000 <= 0)
 		return (0);
 	line = read_line(fd, line);
 	if (!line)
