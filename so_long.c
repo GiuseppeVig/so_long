@@ -6,12 +6,11 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:09:04 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/07/16 12:31:39 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:13:05 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <mlx.h>
 #include "so_long.h"
 
 /*int main(void)
@@ -50,6 +49,7 @@ int	main(int argc, char **argv)
 	maps	test;
 
 	test.path = argv[1];
-	ft_printf("%d\n", check_map_shape(test));
+	ft_printf("Format: %d\nWalls_UP: %d\nWalls_Side: %d\n", check_map_shape(test), open_walls_horizontal(test), open_walls_vertical(test));
+	
 	return (0);
 }

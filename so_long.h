@@ -6,14 +6,13 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:56:59 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/07/16 12:34:14 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/09/13 15:12:30 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
-# include <mlx.h>
 # include "ft_printf/ft_printf.h"
 # include "ft_printf/get_next_line/get_next_line_bonus.h"
 # include <math.h>
@@ -79,5 +78,8 @@ enum	keys
 };
 
 int	check_map_shape(maps m);
+int	open_walls_horizontal(maps m);
+int	open_walls_vertical(maps m);
+char	**read_map(maps m);
 
 #endif

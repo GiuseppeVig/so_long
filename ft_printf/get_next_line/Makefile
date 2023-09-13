@@ -1,5 +1,5 @@
 NAME = get_next_line.a
-SRC = get_next_line.c get_next_line_utils.c
+SRC = get_next_line_bonus.c get_next_line_utils_bonus.c
 OBJ = $(SRC:%.c=%.o)
 CC = gcc -c
 FLAGS = -Werror -Wall -Wextra

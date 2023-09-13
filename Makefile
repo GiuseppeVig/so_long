@@ -6,17 +6,16 @@ SRCS = so_long.c map_checker.c
 FLAGS = -Wall -Werror -Wextra
 PRINTF = ./ft_printf/libftprintf.a
 MLX_MAC = -lmlx -framework OpenGL -framework AppKit
-MLX_LINUX = -Lmlx_linux -lmlx_Linux -L/usr/lib -Ilml_linux -lm -lz -lXext -lX11
+MLX_LINUX = -L/minilibx-linux -Ilml_linux -lm -lz -lXext -lX11
 OBJS = ${SRCS:%.c=%.o}
 GCC = gcc
-GNL = ./ft_printf/get_next_line/get_next_line.a
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
+	cd minilibx-linux && make
 	cd ft_printf && make
-	cd ft_printf/get_next_line && make
-	gcc $(FLAGS) $(OBJS) $(PRINTF) $(GNL) $(MLX_MAC) -o $(NAME)
+	gcc $(FLAGS) $(OBJS) $(PRINTF) $(MLX_LINUX) -o $(NAME)
 
 %.o: %.c
 	$(GCC) $(FLAGS) -c $<

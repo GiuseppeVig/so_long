@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 15:23:56 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/07/16 13:27:34 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/09/13 14:10:38 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,11 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+char	*get_next_line_bonus(int fd);
+char	*read_line(int fd, char *c);
+char    *has_new_line(char *s);
+char	*ft_join(char *s1, char *s2);
+char	*get_output(char *total);
+char	*reset_line(char *str);
 
 #endif
