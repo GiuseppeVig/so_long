@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 15:13:50 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/09/13 15:09:10 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/09/17 10:46:41 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**read_map(maps m)
 	char	*map;
 	char	*tmp;
 	char	**matrix;
-	
+
 	fd = open(m.path, O_RDONLY);
 	map = get_next_line_bonus(fd);
 	tmp = get_next_line_bonus(fd);
@@ -37,7 +37,7 @@ int	check_map_shape(maps m)
 	int	fd;
 	int	len;
 	int	compare;
-	
+
 	fd = open(m.path, O_RDONLY);
 	len = ft_strlen(get_next_line_bonus(fd));
 	compare = ft_strlen(get_next_line_bonus(fd));
@@ -45,7 +45,7 @@ int	check_map_shape(maps m)
 	{
 		if (compare != len)
 		{
-			ft_printf("Invalid map Format");	
+			ft_printf("Invalid map Format");
 			return (0);
 		}
 		compare = ft_strlen(get_next_line_bonus(fd));
@@ -103,5 +103,16 @@ int	open_walls_vertical(maps m)
 		}
 		i++;
 	}
+	return (1);
+}
+
+int	control_map(maps mappa)
+{
+	if (!check_map_shape(mappa))
+		return (0);
+	if (!open_walls_vertical(mappa))
+		return (0);
+	if (!open_walls_horizontal(mappa))
+		return (0);
 	return (1);
 }
