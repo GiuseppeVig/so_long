@@ -6,20 +6,20 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 15:13:50 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/09/17 10:46:41 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/10 21:10:28 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-char	**read_map(maps m)
+char	**read_map(char *path)
 {
 	int		fd;
 	char	*map;
 	char	*tmp;
 	char	**matrix;
 
-	fd = open(m.path, O_RDONLY);
+	fd = open(path, O_RDONLY);
 	map = get_next_line_bonus(fd);
 	tmp = get_next_line_bonus(fd);
 	while (ft_strlen(tmp) != 0)
@@ -32,13 +32,13 @@ char	**read_map(maps m)
 	return (matrix);
 }
 
-int	check_map_shape(maps m)
+int	check_map_shape(char *path)
 {
 	int	fd;
 	int	len;
 	int	compare;
 
-	fd = open(m.path, O_RDONLY);
+	fd = open(path, O_RDONLY);
 	len = ft_strlen(get_next_line_bonus(fd));
 	compare = ft_strlen(get_next_line_bonus(fd));
 	while (compare != 0)
@@ -54,17 +54,14 @@ int	check_map_shape(maps m)
 	return (1);
 }
 
-int	open_walls_horizontal(maps m)
+int	open_walls(char **map)
 {
-	char	**map;
 	int		i;
 	int		j;
 
-	map = read_map(m);
 	i = 0;
 	while (map[i] != NULL)
 	{
-		ft_printf("%s\n", map[i]);
 		j = 0;
 		while (map[i][j])
 		{
@@ -73,28 +70,7 @@ int	open_walls_horizontal(maps m)
 				if (map[i][j] != '1')
 					return (0);
 			}
-			j++;
-		}
-		i++;
-	}
-	return (1);
-}
-
-int	open_walls_vertical(maps m)
-{
-	char	**map;
-	int		i;
-	int		j;
-
-	map = read_map(m);
-	i = 0;
-	while (map[i] != NULL)
-	{
-		ft_printf("%s\n", map[i]);
-		j = 0;
-		while (map[i][j])
-		{
-			if(j == 0 || j == ((int)ft_strlen(map[i]) - 1))
+			else if (j == 0 || j == ((int)ft_strlen(map[i]) - 1))
 			{
 				if (map[i][j] != '1')
 					return (0);
@@ -106,13 +82,56 @@ int	open_walls_vertical(maps m)
 	return (1);
 }
 
-int	control_map(maps mappa)
+int	num_of_collectables(char **map)
 {
-	if (!check_map_shape(mappa))
-		return (0);
-	if (!open_walls_vertical(mappa))
-		return (0);
-	if (!open_walls_horizontal(mappa))
-		return (0);
+	int	i;
+	int	j;
+	int	counter;
+
+	i = 0;
+	counter = 0;
+	while (map[i] != NULL)
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'C')
+				counter++;
+			j++;
+		}
+		i++;
+	}
+	if (counter < 1)
+	{
+		ft_printf("Invalid map, missing collectables");
+		exit(1);
+	}
+	return (counter);
+}
+
+int	check_player_and_exit(char **map)
+{
+	int	i;
+	int	j;
+	int	counter;
+
+	i = 0;
+	counter = 0;
+	while (map[i] != NULL)
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] == 'P' || map[i][j] == 'E')
+				counter++;
+			j++;
+		}
+		i++;
+	}
+	if (counter > 2)
+	{
+		ft_printf("Invalid map, too many players and exits");
+		exit(1);
+	}
 	return (1);
 }

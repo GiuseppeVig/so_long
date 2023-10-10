@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:56:59 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/09/18 19:03:20 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/10 21:31:30 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,69 +15,80 @@
 
 # include "ft_printf/ft_printf.h"
 # include "ft_printf/get_next_line/get_next_line_bonus.h"
+# include "./minilibx-linux/mlx.h"
 # include <math.h>
 # include <unistd.h>
 # include <fcntl.h>
-# include <mlx.h>
 
 typedef struct space
 {
-    int	position_x;
-    int	position_y;
-}				vec2D;
-
-typedef	struct images
-{
-	void	*mlx;
-	void	*img;
-	char	*path;
-	int		width;
-	int		height;
-}				sprites;
+	int	x;
+	int	y;
+}				t_vec2D;
 
 typedef struct objects
 {
-	sprites	models;
-	vec2D	position;
-}				collectables;
+	void	*img;
+	char	*path;
+	int		x;
+	int		y;
+}				t_col;
 
 typedef struct npc
 {
-	sprites	models;
-	vec2D	position;
-	vec2D	movement;
+	t_vec2D	pos;
+	void	*img;
+	char	*path;
 	int		health;
-}				enemies;
+	int		x;
+	int		y;
+}				t_npc;
 
 typedef struct pc
 {
-	vec2D	position;
-	sprites	model;
-}				player;
+	t_vec2D	pos;
+	void	*img;
+	char	*path;
+	int		x;
+	int		y;
+}				t_pc;
 
 typedef struct e
 {
-	vec2D	position;
+	t_vec2D	pos;
+	void	*img;
 	char	*path;
-}				exit_t;
+	int		x;
+	int		y;
+}				t_exit;
 
-typedef	struct map
+typedef struct map
 {
-	sprites			tiles;
-	sprites			walls;
-	collectables	coll;
-	enemies			frieza;
-	player			goku;
-	exit_t			uscita;
+	void			*t;
+	void			*w;
 	char			**matrix;
-	char			*path;
-	int				collider;
-	void			*mlx;
-	void			*win;
-}				maps;
+	char			*t_path;
+	char			*w_path;
+	int		x;
+	int		y;
+}				t_maps;
 
+typedef struct game
+{
+	t_col			coll;
+	t_npc			frieza;
+	t_pc			goku;
+	t_exit			uscita;
+	int		x;
+	int		y;
+	void	*mlx;
+	void	*win;
+	int		counter;
+	int		moves;
+	t_maps	map;
+}				t_game;
 
-enum	keys
+enum	e_keys
 {
 	UP,
 	DOWN,
@@ -88,10 +99,17 @@ enum	keys
 	X,
 };
 
-int		check_map_shape(maps m);
-int		open_walls_horizontal(maps m);
-int		open_walls_vertical(maps m);
-char	**read_map(maps m);
-int		control_map(maps mappa);
+int		check_map_shape(char *path);
+int		open_walls(char **map);
+char	**read_map(char *path);
+int		num_of_collectables(char **map);
+int		check_player_and_exit(char **map);
+t_vec2D start_pos(t_maps map);
+t_vec2D start_exit(t_maps map);
+void	start_game(char	*path);
+void	put_objects(t_game *g);
+void	create_window(t_game *g);
+void	setup(char *path, t_game *new);
+t_vec2D	start_exit(t_maps map);
 
 #endif
