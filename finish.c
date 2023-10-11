@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:14 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/10 21:02:36 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/11 12:57:35 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,33 +39,33 @@ t_vec2D	start_exit(t_maps map)
 	return (exit_pos);
 }
 
-// int	end(t_game *g)
-// {
-// 	if (g->counter == 0)
-// 	{
-// 		if (g->map.goku.pos.x == g->map.uscita.pos.x)
-// 			if (g->map.goku.pos.y == g->map.uscita.pos.y)
-// 				return (1);
-// 		else 
-// 			return (0);
-// 	}
-// 	else
-// 		return (0);
-// }
+int	end(t_game *g)
+{
+	if (g->counter == 0)
+	{
+		if (g->goku.pos.x == g->uscita.pos.x)
+		{
+			if (g->goku.pos.y == g->uscita.pos.y)
+				return (1);
+		else 
+			return (0);
+		}
+	}
+	else
+		return (0);
+	return (0);
+}
 
-// void	free_all(t_game *g)
-// {
-// 	if (end(g))
-// 	{
-// 		free(g->map.matrix);
-// 		mlx_destroy_image(g->mlx, g->map.coll.img);
-// 		mlx_destroy_image(g->mlx, g->map.frieza.img);
-// 		mlx_destroy_image(g->mlx, g->map.goku.img);
-// 		mlx_destroy_image(g->mlx, g->map.tiles);
-// 		mlx_destroy_image(g->mlx, g->map.walls);
-// 		mlx_destroy_image(g->mlx, g->map.uscita.img);
-// 		mlx_destroy_window(g->mlx, g->win);
-// 		mlx_destroy_display(g->mlx);
-// 		free(g);
-// 	}
-// }
+void	free_all(t_game *g)
+{
+	free(g->map.matrix);
+	mlx_destroy_image(g->mlx, g->coll.img);
+	mlx_destroy_image(g->mlx, g->frieza.img);
+	mlx_destroy_image(g->mlx, g->goku.img);
+	mlx_destroy_image(g->mlx, g->map.t);
+	mlx_destroy_image(g->mlx, g->map.w);
+	mlx_destroy_image(g->mlx, g->uscita.img);
+	mlx_destroy_window(g->mlx, g->win);
+	mlx_destroy_display(g->mlx);
+	free(g);
+}

@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:49:29 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/10 22:57:04 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:03:55 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	setup(char *path, t_game *new)
 	new->goku.pos = start_pos(new->map);
 	new->frieza.pos = start_pos(new->map);
 	new->uscita.pos = start_exit(new->map);
-	write(1, "ok\n", 3);
 	new->map.w = mlx_xpm_file_to_image(new->mlx, new->map.w_path,
 			&new->x, &new->y);
 	new->map.t = mlx_xpm_file_to_image(new->mlx, new->map.t_path,
@@ -45,7 +44,6 @@ void	create_window(t_game *g)
 	int		i;
 	int		j;
 
-	g->win = mlx_new_window(g->mlx, 32*23, 32 * 14, "Hello");
 	i = 0;
 	while (g->map.matrix[i] != NULL)
 	{
@@ -55,6 +53,9 @@ void	create_window(t_game *g)
 			if (g->map.matrix[i][j] == '1')
 				mlx_put_image_to_window(g->mlx, g->win, g->map.w, 
 					j * 32, i * 32);
+			else if (g->map.matrix[i][j] == 'C')
+				mlx_put_image_to_window(g->mlx, g->win, g->coll.img,
+					j * 32, i * 32);
 			else
 				mlx_put_image_to_window(g->mlx, g->win, g->map.t, 
 					j * 32, i * 32);
@@ -62,7 +63,6 @@ void	create_window(t_game *g)
 		}
 		i++;
 	}
-	write(1, "done\n", 5);
 }
 
 void	put_objects(t_game *g)
@@ -79,9 +79,6 @@ void	put_objects(t_game *g)
 			if (g->map.matrix[i][j] == 'P')
 				mlx_put_image_to_window(g->mlx, g->win, g->goku.img,
 					j * 32, i * 32);
-			if (g->map.matrix[i][j] == 'C')
-				mlx_put_image_to_window(g->mlx, g->win, g->coll.img,
-					j * 32, i * 32);
 			if (g->map.matrix[i][j] == 'E')
 				mlx_put_image_to_window(g->mlx, g->win, g->uscita.img,
 					j * 32, i * 32);
@@ -92,7 +89,10 @@ void	put_objects(t_game *g)
 		}
 		i++;
 	}
+	ft_printf("Number of moves: %d\n", g->moves);
 }
+
+
 
 void	start_game(char	*path)
 {
@@ -100,8 +100,10 @@ void	start_game(char	*path)
 
 	new_game = malloc(sizeof(t_game));
 	new_game->mlx = mlx_init();
+	new_game->win = mlx_new_window(new_game->mlx, 32*23, 32 * 14, "Hello");
 	setup(path, new_game);
 	create_window(new_game);
 	put_objects(new_game);
+	mlx_key_hook(new_game->win, move, new_game);
 	mlx_loop(new_game->mlx);
 }

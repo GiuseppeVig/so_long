@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:56:59 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/10 21:31:30 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:12:08 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ typedef struct map
 	char			*w_path;
 	int		x;
 	int		y;
+	int		h;
+	int		wi;
 }				t_maps;
 
 typedef struct game
@@ -87,6 +89,11 @@ typedef struct game
 	int		moves;
 	t_maps	map;
 }				t_game;
+
+typedef struct	s_vars {
+	void	*mlx;
+	void	*win;
+}				t_vars;
 
 enum	e_keys
 {
@@ -111,5 +118,13 @@ void	put_objects(t_game *g);
 void	create_window(t_game *g);
 void	setup(char *path, t_game *new);
 t_vec2D	start_exit(t_maps map);
+void	free_all(t_game *g);
+void	adjust_status(t_game *g, t_vec2D pos);
+int		move(int k, t_game *g);
+void    move_horizonta(t_game *g, int i);
+void    move_vertical(t_game *g, int i);
+int		end(t_game *g);
+int	key_hook(int keycode);
+void	update_win(t_game *g, t_vec2D pos);
 
 #endif
