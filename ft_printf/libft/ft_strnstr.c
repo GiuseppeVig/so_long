@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 15:26:19 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/04/01 01:08:15 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/13 17:11:10 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strnstr(const char *dest, const char *to_find, size_t n)
 			j++;
 			if (to_find[j] == '\0')
 				return ((char *)(dest + i));
-		}	
+		}
 		i ++;
 	}
 	return (0);

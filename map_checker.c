@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 15:13:50 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/10 21:10:28 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/13 17:07:38 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	open_walls(char **map)
 		j = 0;
 		while (map[i][j])
 		{
+			ft_printf("x:%d\ny:%d\nchar:%c\n", j, i, map[i][j]);
 			if (i == 0 || map[i + 1] == NULL)
 			{
 				if (map[i][j] != '1')
@@ -102,14 +103,11 @@ int	num_of_collectables(char **map)
 		i++;
 	}
 	if (counter < 1)
-	{
-		ft_printf("Invalid map, missing collectables");
-		exit(1);
-	}
+		return (1);
 	return (counter);
 }
 
-int	check_player_and_exit(char **map)
+int	check_p_and_e(char **map)
 {
 	int	i;
 	int	j;
@@ -130,8 +128,7 @@ int	check_player_and_exit(char **map)
 	}
 	if (counter > 2)
 	{
-		ft_printf("Invalid map, too many players and exits");
-		exit(1);
+		return (0);
 	}
 	return (1);
 }

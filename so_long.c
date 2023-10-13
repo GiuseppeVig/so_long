@@ -6,13 +6,13 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:09:04 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/11 12:58:03 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/13 17:14:20 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	if (argc == 2)
 	{

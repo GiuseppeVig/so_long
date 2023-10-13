@@ -6,17 +6,17 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:50:55 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/11 14:12:27 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:28:07 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-t_vec2D start_pos(t_maps map)
+t_vec2D	start_pos(t_maps map)
 {
-	t_vec2D start;
-	int     x;
-	int     y;
+	t_vec2D	start;
+	int		x;
+	int		y;
 
 	x = 0;
 	start.x = 0;
@@ -39,17 +39,17 @@ t_vec2D start_pos(t_maps map)
 	return (start);
 }
 
-void    move_vertical(t_game *g, int i)
+void	move_vertical(t_game *g, int i)
 {
-	t_vec2D pos;
+	t_vec2D	pos;
 
 	pos = g->goku.pos;
 	if (i == 1)
 	{
-		if (g->map.matrix[pos.x + 1][pos.y] != '1')
+		if (g->matrix[pos.x + 1][pos.y] != '1')
 		{
 			g->goku.pos.x += 1;
-			if (g->map.matrix[pos.x + 1][pos.y] == 'C')
+			if (g->matrix[pos.x + 1][pos.y] == 'C')
 				g->counter--;
 			g->moves++; 
 			adjust_status(g, pos);
@@ -57,10 +57,10 @@ void    move_vertical(t_game *g, int i)
 	}
 	if (i == 2)
 	{
-		if (g->map.matrix[pos.x - 1][pos.y] != '1')
+		if (g->matrix[pos.x - 1][pos.y] != '1')
 		{
 			g->goku.pos.x -= 1;
-			if (g->map.matrix[pos.x - 1][pos.y] == 'C')
+			if (g->matrix[pos.x - 1][pos.y] == 'C')
 				g->counter--;
 			g->moves++; 
 			adjust_status(g, pos);
@@ -68,17 +68,17 @@ void    move_vertical(t_game *g, int i)
 	}
 }
 
-void    move_horizonta(t_game *g, int i)
+void	move_horizonta(t_game *g, int i)
 {
-	t_vec2D pos;
+	t_vec2D	pos;
 
 	pos = g->goku.pos;
 	if (i == 1)
 	{
-		if (g->map.matrix[pos.x][pos.y + 1] != '1')
+		if (g->matrix[pos.x][pos.y + 1] != '1')
 		{
 			g->goku.pos.y += 1;
-			if (g->map.matrix[pos.x][pos.y + 1] == 'C')
+			if (g->matrix[pos.x][pos.y + 1] == 'C')
 				g->counter--;
 			g->moves++;
 			adjust_status(g, pos);
@@ -86,10 +86,10 @@ void    move_horizonta(t_game *g, int i)
 	}
 	if (i == 2)
 	{
-		if (g->map.matrix[pos.x][pos.y - 1] != '1')
+		if (g->matrix[pos.x][pos.y - 1] != '1')
 		{
 			g->goku.pos.y -= 1;
-			if (g->map.matrix[pos.x][pos.y - 1] == 'C')
+			if (g->matrix[pos.x][pos.y - 1] == 'C')
 				g->counter--;
 			g->moves++; 
 			adjust_status(g, pos);
@@ -97,7 +97,7 @@ void    move_horizonta(t_game *g, int i)
 	}
 }
 
-int		move(int k, t_game *g)
+int	move(int k, t_game *g)
 {
 	if (k == 13 || k == 119)
 	{
@@ -132,7 +132,7 @@ void	adjust_status(t_game *g, t_vec2D pos)
 	}
 	create_window(g);
 	put_objects(g);
-	g->map.matrix[pos.x][pos.y] = '0';
-	g->map.matrix[g->goku.pos.x][g->goku.pos.y] = 'P';
+	g->matrix[pos.x][pos.y] = '0';
+	g->matrix[g->goku.pos.x][g->goku.pos.y] = 'P';
 	update_win(g, pos);
 }

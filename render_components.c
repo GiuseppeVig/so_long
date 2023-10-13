@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:49:29 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/11 14:03:55 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:35:18 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	setup(char *path, t_game *new)
 {
+	new->matrix = read_map(path);
 	new->map.matrix = read_map(path);
 	new->counter = num_of_collectables(new->map.matrix);
 	new->goku.path = "./sprites/PC/idle.xpm";
@@ -45,15 +46,15 @@ void	create_window(t_game *g)
 	int		j;
 
 	i = 0;
-	while (g->map.matrix[i] != NULL)
+	while (g->matrix[i] != NULL)
 	{
 		j = 0;
-		while (g->map.matrix[i][j])
+		while (g->matrix[i][j])
 		{
-			if (g->map.matrix[i][j] == '1')
+			if (g->matrix[i][j] == '1')
 				mlx_put_image_to_window(g->mlx, g->win, g->map.w, 
 					j * 32, i * 32);
-			else if (g->map.matrix[i][j] == 'C')
+			else if (g->matrix[i][j] == 'C')
 				mlx_put_image_to_window(g->mlx, g->win, g->coll.img,
 					j * 32, i * 32);
 			else
@@ -71,18 +72,18 @@ void	put_objects(t_game *g)
 	int	j;
 
 	i = 0;
-	while (g->map.matrix[i])
+	while (g->matrix[i])
 	{
 		j = 0;
-		while (g->map.matrix[i][j])
+		while (g->matrix[i][j])
 		{
-			if (g->map.matrix[i][j] == 'P')
+			if (g->matrix[i][j] == 'P')
 				mlx_put_image_to_window(g->mlx, g->win, g->goku.img,
 					j * 32, i * 32);
-			if (g->map.matrix[i][j] == 'E')
+			if (g->matrix[i][j] == 'E')
 				mlx_put_image_to_window(g->mlx, g->win, g->uscita.img,
 					j * 32, i * 32);
-			if (g->map.matrix[i][j] == 'N')
+			if (g->matrix[i][j] == 'N')
 				mlx_put_image_to_window(g->mlx, g->win, g->frieza.img,
 					j * 32, i * 32);
 			j++;
@@ -92,16 +93,20 @@ void	put_objects(t_game *g)
 	ft_printf("Number of moves: %d\n", g->moves);
 }
 
-
-
 void	start_game(char	*path)
 {
 	t_game	*new_game;
 
 	new_game = malloc(sizeof(t_game));
 	new_game->mlx = mlx_init();
-	new_game->win = mlx_new_window(new_game->mlx, 32*23, 32 * 14, "Hello");
 	setup(path, new_game);
+	new_game->win = mlx_new_window(new_game->mlx, 32 * ml(new_game),
+			32 * mh(new_game), "so_long");
+	if (!run_full_check(new_game))
+	{
+		ft_printf("ERROR, Invalid Map");
+		exit(1);
+	}
 	create_window(new_game);
 	put_objects(new_game);
 	mlx_key_hook(new_game->win, move, new_game);

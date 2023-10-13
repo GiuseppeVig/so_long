@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:56:59 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/11 14:12:08 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:30:19 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ typedef struct map
 {
 	void			*t;
 	void			*w;
-	char			**matrix;
 	char			*t_path;
 	char			*w_path;
+	char			**matrix;
 	int		x;
 	int		y;
 	int		h;
@@ -81,6 +81,8 @@ typedef struct game
 	t_npc			frieza;
 	t_pc			goku;
 	t_exit			uscita;
+	char			**matrix;
+	char	*percorso;
 	int		x;
 	int		y;
 	void	*mlx;
@@ -110,7 +112,7 @@ int		check_map_shape(char *path);
 int		open_walls(char **map);
 char	**read_map(char *path);
 int		num_of_collectables(char **map);
-int		check_player_and_exit(char **map);
+int		check_p_and_e(char **map);
 t_vec2D start_pos(t_maps map);
 t_vec2D start_exit(t_maps map);
 void	start_game(char	*path);
@@ -124,7 +126,16 @@ int		move(int k, t_game *g);
 void    move_horizonta(t_game *g, int i);
 void    move_vertical(t_game *g, int i);
 int		end(t_game *g);
-int	key_hook(int keycode);
+int		key_hook(int keycode);
 void	update_win(t_game *g, t_vec2D pos);
+int		sq(t_game *game, int x, int y, char a);
+void	changeit(t_game *game, int a, int b);
+int		controlpath(t_game *game);
+int		scan(t_game *game);
+int		pathfind(t_game *game);
+int 	check_intruder(t_game *g);
+int		run_full_check(t_game *g);
+int		ml(t_game *g);
+int		mh(t_game *g);
 
 #endif

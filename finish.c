@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:14 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/11 12:57:35 by gvigilan         ###   ########.fr       */
+/*   Updated: 2023/10/13 16:27:02 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_vec2D	start_exit(t_maps map)
 {
-	t_vec2D exit_pos;
-	int     i;
-	int     j;
+	t_vec2D	exit_pos;
+	int		i;
+	int		j;
 
 	i = 0;
 	exit_pos.x = 0;
@@ -47,8 +47,8 @@ int	end(t_game *g)
 		{
 			if (g->goku.pos.y == g->uscita.pos.y)
 				return (1);
-		else 
-			return (0);
+			else 
+				return (0);
 		}
 	}
 	else
@@ -59,6 +59,7 @@ int	end(t_game *g)
 void	free_all(t_game *g)
 {
 	free(g->map.matrix);
+	free(g->matrix);
 	mlx_destroy_image(g->mlx, g->coll.img);
 	mlx_destroy_image(g->mlx, g->frieza.img);
 	mlx_destroy_image(g->mlx, g->goku.img);

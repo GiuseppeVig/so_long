@@ -17,11 +17,10 @@
 # include <unistd.h>
 # include <stddef.h>
 # include "../libft/libft.h"
-# define BUFFER_SIZE 1000;
 
 char	*get_next_line_bonus(int fd);
 char	*read_line(int fd, char *c);
-char    *has_new_line(char *s);
+char	*has_new_line(char *s);
 char	*ft_join(char *s1, char *s2);
 char	*get_output(char *total);
 char	*reset_line(char *str);
