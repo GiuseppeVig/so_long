@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:56:59 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/13 16:30:19 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/22 22:10:56 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <math.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <stdio.h>
 
 typedef struct space
 {
@@ -37,6 +38,7 @@ typedef struct objects
 typedef struct npc
 {
 	t_vec2D	pos;
+	t_vec2D	spot;
 	void	*img;
 	char	*path;
 	int		health;
@@ -44,9 +46,17 @@ typedef struct npc
 	int		y;
 }				t_npc;
 
+typedef	struct after
+{
+	t_vec2D	tp;
+	void	*img;
+	char	*path;
+}				t_after;
+
 typedef struct pc
 {
 	t_vec2D	pos;
+	t_after	tp;
 	void	*img;
 	char	*path;
 	int		x;
@@ -116,18 +126,19 @@ int		check_p_and_e(char **map);
 t_vec2D start_pos(t_maps map);
 t_vec2D start_exit(t_maps map);
 void	start_game(char	*path);
-void	put_objects(t_game *g);
+void	put_objects(t_game *g, int print);
 void	create_window(t_game *g);
 void	setup(char *path, t_game *new);
 t_vec2D	start_exit(t_maps map);
 void	free_all(t_game *g);
-void	adjust_status(t_game *g, t_vec2D pos);
+int	adjust_status(t_game *g, t_vec2D pos);
 int		move(int k, t_game *g);
 void    move_horizonta(t_game *g, int i);
 void    move_vertical(t_game *g, int i);
 int		end(t_game *g);
 int		key_hook(int keycode);
-void	update_win(t_game *g, t_vec2D pos);
+void	update_player(t_game *g, t_vec2D pos);
+void	update_enemy(t_game *g, t_vec2D pos);
 int		sq(t_game *game, int x, int y, char a);
 void	changeit(t_game *game, int a, int b);
 int		controlpath(t_game *game);
@@ -135,7 +146,16 @@ int		scan(t_game *game);
 int		pathfind(t_game *game);
 int 	check_intruder(t_game *g);
 int		run_full_check(t_game *g);
+void	special_move(t_game	*g);
 int		ml(t_game *g);
 int		mh(t_game *g);
+t_vec2D	start_pos_enemy(t_maps map);
+void	enemy_status(t_game *g, t_vec2D pos);
+int		move_around(t_game *g);
+void	move_to_spot(t_game *g);
+int		see_player(t_game *g);
+void	move_enemy(t_game *g, int i);
+int		ft_update(void *data);
+
 
 #endif

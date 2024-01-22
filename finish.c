@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:14 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/13 16:27:02 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/22 22:24:39 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,20 @@ int	end(t_game *g)
 		if (g->goku.pos.x == g->uscita.pos.x)
 		{
 			if (g->goku.pos.y == g->uscita.pos.y)
+			{
+				ft_printf("YOU WIN\n");
+				free_all(g);
 				return (1);
-			else 
+			}
+			else
 				return (0);
 		}
+	}
+	else if (g->goku.pos.x == g->frieza.pos.x && g->goku.pos.y == g->frieza.pos.y)
+	{
+		ft_printf("YOU LOSE\n");
+		free_all(g);
+		return (1);
 	}
 	else
 		return (0);
@@ -58,8 +68,6 @@ int	end(t_game *g)
 
 void	free_all(t_game *g)
 {
-	free(g->map.matrix);
-	free(g->matrix);
 	mlx_destroy_image(g->mlx, g->coll.img);
 	mlx_destroy_image(g->mlx, g->frieza.img);
 	mlx_destroy_image(g->mlx, g->goku.img);
@@ -68,5 +76,7 @@ void	free_all(t_game *g)
 	mlx_destroy_image(g->mlx, g->uscita.img);
 	mlx_destroy_window(g->mlx, g->win);
 	mlx_destroy_display(g->mlx);
+	free(g->map.matrix);
+	free(g->matrix);
 	free(g);
 }

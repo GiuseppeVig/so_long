@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:49:29 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/13 16:35:18 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/22 22:19:54 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ void	setup(char *path, t_game *new)
 	new->map.matrix = read_map(path);
 	new->counter = num_of_collectables(new->map.matrix);
 	new->goku.path = "./sprites/PC/idle.xpm";
+	new->goku.tp.path = "./sprites/PC/idle.xpm";
 	new->frieza.path = "./sprites/NPC/idle.xpm";
 	new->coll.path = "./sprites/balls/ball.xpm";
 	new->uscita.path = "./sprites/exit/exit.xpm";
 	new->map.w_path = "./sprites/terrain/wall.xpm";
 	new->map.t_path = "./sprites/terrain/floor.xpm";
 	new->goku.pos = start_pos(new->map);
-	new->frieza.pos = start_pos(new->map);
+	new->frieza.pos = start_pos_enemy(new->map);
 	new->uscita.pos = start_exit(new->map);
 	new->map.w = mlx_xpm_file_to_image(new->mlx, new->map.w_path,
 			&new->x, &new->y);
@@ -38,6 +39,8 @@ void	setup(char *path, t_game *new)
 			&new->x, &new->y);
 	new->frieza.img = mlx_xpm_file_to_image(new->mlx, new->frieza.path,
 			&new->x, &new->y);
+	new->goku.tp.img = mlx_xpm_file_to_image(new->mlx, new->goku.tp.path,
+			&new->x, &new->y);
 }
 
 void	create_window(t_game *g)
@@ -49,16 +52,16 @@ void	create_window(t_game *g)
 	while (g->matrix[i] != NULL)
 	{
 		j = 0;
-		while (g->matrix[i][j])
+		while (j < (int)ft_strlen(g->matrix[i]))
 		{
 			if (g->matrix[i][j] == '1')
-				mlx_put_image_to_window(g->mlx, g->win, g->map.w, 
+				mlx_put_image_to_window(g->mlx, g->win, g->map.w,
 					j * 32, i * 32);
 			else if (g->matrix[i][j] == 'C')
 				mlx_put_image_to_window(g->mlx, g->win, g->coll.img,
 					j * 32, i * 32);
 			else
-				mlx_put_image_to_window(g->mlx, g->win, g->map.t, 
+				mlx_put_image_to_window(g->mlx, g->win, g->map.t,
 					j * 32, i * 32);
 			j++;
 		}
@@ -66,7 +69,7 @@ void	create_window(t_game *g)
 	}
 }
 
-void	put_objects(t_game *g)
+void	put_objects(t_game *g, int print)
 {
 	int	i;
 	int	j;
@@ -86,11 +89,15 @@ void	put_objects(t_game *g)
 			if (g->matrix[i][j] == 'N')
 				mlx_put_image_to_window(g->mlx, g->win, g->frieza.img,
 					j * 32, i * 32);
+			if (g->matrix[i][j] == 'A')
+				mlx_put_image_to_window(g->mlx, g->win, g->goku.tp.img,
+					j * 32, i * 32);
 			j++;
 		}
 		i++;
 	}
-	ft_printf("Number of moves: %d\n", g->moves);
+	if (print)
+		ft_printf("Number of moves: %d\n", g->moves);
 }
 
 void	start_game(char	*path)
@@ -108,7 +115,9 @@ void	start_game(char	*path)
 		exit(1);
 	}
 	create_window(new_game);
-	put_objects(new_game);
+	put_objects(new_game, 1);
+	//mlx_loop_hook(new_game->mlx, move_around, new_game);
 	mlx_key_hook(new_game->win, move, new_game);
+	mlx_loop_hook(new_game, adjust_status, new_game);
 	mlx_loop(new_game->mlx);
 }

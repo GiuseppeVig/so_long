@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:50:55 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/13 16:28:07 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/22 22:25:21 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	move_vertical(t_game *g, int i)
 			g->goku.pos.x += 1;
 			if (g->matrix[pos.x + 1][pos.y] == 'C')
 				g->counter--;
-			g->moves++; 
+			g->moves++;
 			adjust_status(g, pos);
 		}
 	}
@@ -62,7 +62,7 @@ void	move_vertical(t_game *g, int i)
 			g->goku.pos.x -= 1;
 			if (g->matrix[pos.x - 1][pos.y] == 'C')
 				g->counter--;
-			g->moves++; 
+			g->moves++;
 			adjust_status(g, pos);
 		}
 	}
@@ -91,31 +91,51 @@ void	move_horizonta(t_game *g, int i)
 			g->goku.pos.y -= 1;
 			if (g->matrix[pos.x][pos.y - 1] == 'C')
 				g->counter--;
-			g->moves++; 
+			g->moves++;
 			adjust_status(g, pos);
 		}
+	}
+}
+
+void	special_move(t_game	*g)
+{
+	t_vec2D	pos;
+
+	pos = g->goku.pos;
+	if (g->goku.tp.tp.x != 0 && g->goku.tp.tp.y != 0)
+	{
+		if (g->goku.tp.tp.x != g->goku.pos.x && g->goku.tp.tp.y != g->goku.pos.y)
+		{
+			g->moves++;
+			g->goku.pos = g->goku.tp.tp;
+			adjust_status(g, pos);
+			g->goku.tp.tp.x = 0;
+			g->goku.tp.tp.y = 0;
+		}
+	}
+	else if (g->goku.tp.tp.x != g->goku.pos.x && g->goku.tp.tp.y != g->goku.pos.y)
+	{
+		g->moves++;
+		g->goku.tp.tp = g->goku.pos;
+		if (g->goku.tp.tp.x != 0 && g->goku.tp.tp.y != 0)
+			g->matrix[g->goku.pos.x][g->goku.pos.y] = 'A';
+		adjust_status(g, pos);
 	}
 }
 
 int	move(int k, t_game *g)
 {
 	if (k == 13 || k == 119)
-	{
 		move_vertical(g, 2);
-	}
 	else if (k == 1 || k == 115)
-	{
 		move_vertical(g, 1);
-	}
 	else if (k == 2 || k == 100)
-	{
 		move_horizonta(g, 1);
-	}
 	else if (k == 0 || k == 97)
-	{
 		move_horizonta(g, 2);
-	}
-	else if (k == 53)
+	else if (k == 32)
+		special_move(g);
+	else if (k == 65307)
 	{
 		free_all(g);
 		exit(0);
@@ -123,16 +143,20 @@ int	move(int k, t_game *g)
 	return (0);
 }
 
-void	adjust_status(t_game *g, t_vec2D pos)
+int	adjust_status(t_game *g, t_vec2D pos)
 {
 	if (end(g))
 	{
 		free_all(g);
 		exit(0);
 	}
+	if (g->matrix[pos.x][pos.y] != 'E' && g->matrix[pos.x][pos.y] != 'A')
+		g->matrix[pos.x][pos.y] = '0';
+	if (g->matrix[g->goku.pos.x][g->goku.pos.y] != 'E' && g->matrix[pos.x][pos.y] != 'A')
+		g->matrix[g->goku.pos.x][g->goku.pos.y] = 'P';
 	create_window(g);
-	put_objects(g);
-	g->matrix[pos.x][pos.y] = '0';
-	g->matrix[g->goku.pos.x][g->goku.pos.y] = 'P';
-	update_win(g, pos);
+	put_objects(g, 1);
+	update_player(g, pos);
+	return (1);
 }
+

@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 15:13:50 by gvigilan          #+#    #+#             */
-/*   Updated: 2023/10/13 17:07:38 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/22 22:08:32 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	open_walls(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			ft_printf("x:%d\ny:%d\nchar:%c\n", j, i, map[i][j]);
 			if (i == 0 || map[i + 1] == NULL)
 			{
 				if (map[i][j] != '1')
