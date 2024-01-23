@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:56:59 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/22 22:10:56 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:23:49 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct game
 	t_pc			goku;
 	t_exit			uscita;
 	char			**matrix;
+	int		mode;
 	char	*percorso;
 	int		x;
 	int		y;
@@ -125,7 +126,7 @@ int		num_of_collectables(char **map);
 int		check_p_and_e(char **map);
 t_vec2D start_pos(t_maps map);
 t_vec2D start_exit(t_maps map);
-void	start_game(char	*path);
+void	start_game(char	*path, int mode);
 void	put_objects(t_game *g, int print);
 void	create_window(t_game *g);
 void	setup(char *path, t_game *new);
@@ -155,7 +156,12 @@ int		move_around(t_game *g);
 void	move_to_spot(t_game *g);
 int		see_player(t_game *g);
 void	move_enemy(t_game *g, int i);
+int	adjust_status_player2(t_game *g, t_vec2D pos);
+int	move_player2(int k, t_game *g);
+void	move_horizontal_player2(t_game *g, int i);
+void	move_vertical_player2(t_game *g, int i);
 int		ft_update(void *data);
+void	print_map(t_game *g);
 
 
 #endif

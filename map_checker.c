@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 15:13:50 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/22 22:08:32 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:13:28 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,14 @@ int	check_p_and_e(char **map)
 		return (0);
 	}
 	return (1);
+}
+
+void	print_map(t_game *g)
+{
+	for (int i = 0; i < mh(g); i++)
+	{
+		for (int j = 0; j < ml(g); j++)
+			printf("%c", g->matrix[i][j]);
+		printf("\n");
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 15:50:55 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/22 22:25:21 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:28:25 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	special_move(t_game	*g)
 			g->goku.tp.tp.y = 0;
 		}
 	}
-	else if (g->goku.tp.tp.x != g->goku.pos.x && g->goku.tp.tp.y != g->goku.pos.y)
+	else if (g->goku.tp.tp.x != g->goku.pos.x || g->goku.tp.tp.y != g->goku.pos.y)
 	{
 		g->moves++;
 		g->goku.tp.tp = g->goku.pos;
@@ -121,6 +121,19 @@ void	special_move(t_game	*g)
 			g->matrix[g->goku.pos.x][g->goku.pos.y] = 'A';
 		adjust_status(g, pos);
 	}
+}
+
+int	move_player2(int k, t_game *g)
+{
+	if (k == 105)
+		move_vertical_player2(g, 2);
+	else if (k == 107)
+		move_vertical_player2(g, 1);
+	else if (k == 108)
+		move_horizontal_player2(g, 1);
+	else if (k == 106)
+		move_horizontal_player2(g, 2);
+	return (0);
 }
 
 int	move(int k, t_game *g)
@@ -140,6 +153,8 @@ int	move(int k, t_game *g)
 		free_all(g);
 		exit(0);
 	}
+	else if (g->mode != 0)
+		move_player2(k, g);
 	return (0);
 }
 
@@ -159,4 +174,6 @@ int	adjust_status(t_game *g, t_vec2D pos)
 	update_player(g, pos);
 	return (1);
 }
+
+
 

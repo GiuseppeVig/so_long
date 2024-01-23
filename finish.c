@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:14 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/22 22:24:39 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/22 23:43:52 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	free_all(t_game *g)
 	mlx_destroy_image(g->mlx, g->map.t);
 	mlx_destroy_image(g->mlx, g->map.w);
 	mlx_destroy_image(g->mlx, g->uscita.img);
+	mlx_destroy_image(g->mlx, g->goku.tp.img);
 	mlx_destroy_window(g->mlx, g->win);
 	mlx_destroy_display(g->mlx);
 	free(g->map.matrix);

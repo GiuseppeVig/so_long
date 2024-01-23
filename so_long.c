@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 16:09:04 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/22 20:03:01 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/23 02:27:39 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@ t_vec2D	start_pos_enemy(t_maps map)
 
 int	main(int argc, char **argv)
 {
-	if (argc == 2)
+	if (argc >= 2)
 	{
-		start_game(argv[1]);
+		if (argc == 3 && ft_atoi(argv[2]))
+			start_game(argv[1], 1);
+		else
+			start_game(argv[1], 0);
 	}
 	else
 	{
