@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:10:43 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/23 02:14:48 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/27 19:27:42 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,13 @@ void	update_player(t_game *g, t_vec2D pos)
 
 void	update_enemy(t_game *g, t_vec2D pos)
 {
-	print_map(g);
 	if (pos.y < g->frieza.pos.y || pos.y > g->frieza.pos.y)
 	{
 		mlx_put_image_to_window(g->mlx, g->win, g->map.t,
 					g->frieza.pos.y * 32, g->frieza.pos.x * 32);
-		g->frieza.path = "./sprites/NPC/moveside01.xpm";
+		g->frieza.path = "./sprites/NPC/idleside.xpm";
 		g->frieza.img = mlx_xpm_file_to_image(g->mlx, g->frieza.path, &g->frieza.x, &g->frieza.y);
-		mlx_put_image_to_window(g->mlx, g->win, g->goku.img,
+		mlx_put_image_to_window(g->mlx, g->win, g->frieza.img,
 			g->frieza.pos.y * 32, g->frieza.pos.x * 32);
 	}
 	if (pos.x < g->frieza.pos.x)

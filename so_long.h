@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/26 15:56:59 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/23 02:23:49 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:56:22 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,8 @@ int	adjust_status_player2(t_game *g, t_vec2D pos);
 int	move_player2(int k, t_game *g);
 void	move_horizontal_player2(t_game *g, int i);
 void	move_vertical_player2(t_game *g, int i);
-int		ft_update(void *data);
+int		allowed_move_side(t_game *g, t_vec2D pos, int i);
+int		allowed_move_up_down(t_game *g, t_vec2D pos, int i);
 void	print_map(t_game *g);
 
 

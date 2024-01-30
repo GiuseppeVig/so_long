@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:49:29 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/23 02:28:12 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:19:47 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,12 @@ void	start_game(char	*path, int mode)
 	}
 	create_window(new_game);
 	put_objects(new_game, 1);
-	mlx_key_hook(new_game->win, move, new_game);
 	if (mode)
 		new_game->mode = 1;
 	else
 		new_game->mode = 0;
-	mlx_loop_hook(new_game, adjust_status, new_game);
+	mlx_key_hook(new_game->win, move, new_game);
+	if (!mode)
+		mlx_loop_hook(new_game->mlx, move_around, new_game);
 	mlx_loop(new_game->mlx);
 }

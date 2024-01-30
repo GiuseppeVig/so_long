@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 23:21:55 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/23 02:22:19 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/30 13:55:23 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,21 @@
 
 int		allowed_move_up_down(t_game *g, t_vec2D pos, int i)
 {
+	int	move;
+
+	if (g->mode == 1)
+		move = 2;
+	else
+		move = 1;
 	if (i == 1)
 	{
-		if (g->matrix[pos.x + 2][pos.y] != 'C' && g->matrix[pos.x + 2][pos.y] != 'E')
+		if (g->matrix[pos.x + move][pos.y] != 'C' && g->matrix[pos.x + move][pos.y] != 'E')
 			return(1);
 		return (0);
 	}
 	if (i == 2)
 	{
-		if (g->matrix[pos.x - 2][pos.y] != 'C' && g->matrix[pos.x + 2][pos.y] != 'E')
+		if (g->matrix[pos.x - move][pos.y] != 'C' && g->matrix[pos.x + move][pos.y] != 'E')
 			return(1);
 		return (0);
 	}
@@ -31,15 +37,21 @@ int		allowed_move_up_down(t_game *g, t_vec2D pos, int i)
 
 int		allowed_move_side(t_game *g, t_vec2D pos, int i)
 {
+	int	move;
+
+	if (g->mode == 1)
+		move = 2;
+	else
+		move = 1;
 	if (i == 1)
 	{
-		if (g->matrix[pos.x][pos.y + 2] != 'C' && g->matrix[pos.x][pos.y + 2] != 'E')
+		if (g->matrix[pos.x][pos.y + move] != 'C' && g->matrix[pos.x][pos.y + move] != 'E')
 			return(1);
 		return (0);
 	}
 	if (i == 2)
 	{
-		if (g->matrix[pos.x][pos.y - 2] != 'C' && g->matrix[pos.x][pos.y - 2] != 'E')
+		if (g->matrix[pos.x][pos.y - move] != 'C' && g->matrix[pos.x][pos.y - move] != 'E')
 			return(1);
 		return (0);
 	}

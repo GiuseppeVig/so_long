@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:19 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/22 22:08:58 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/30 14:15:45 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,30 @@ void	move_enemy(t_game *g, int i)
 	t_vec2D pos;
 
 	pos = g->frieza.pos;
-	if (i == 1)
+	if (i == 1 && g->matrix[pos.x][pos.y + 1] != '1' && allowed_move_side(g, pos, 1))
 	{
 		g->frieza.pos.y += 1;
 		enemy_status(g, pos);
 	}
-	else if (i == 2)
+	else if (i == 2 && g->matrix[pos.x][pos.y - 1] != '1' && allowed_move_side(g, pos, 2))
 	{
 		g->frieza.pos.y -= 1;
 		enemy_status(g, pos);
 	}
-	else if (i == 3)
+	else if (i == 3 && g->matrix[pos.x + 1][pos.y] != '1' && allowed_move_up_down(g, pos, 1))
 	{
 		g->frieza.pos.x += 1;
 		enemy_status(g, pos);
 	}
-	else if (i == 4)
+	else if (i == 4 && g->matrix[pos.x - 1][pos.y] != '1' && allowed_move_up_down(g, pos, 2))
 	{
 		g->frieza.pos.x -= 1;
 		enemy_status(g, pos);
 	}
+	else if (g->matrix[pos.x - 1][pos.y] == '1' || g->matrix[pos.x + 1][pos.y] == '1')
+		g->frieza.spot.x = 0;
+	else if (g->matrix[pos.x][pos.y + 1] == '1' || g->matrix[pos.x][pos.y - 1] == '1')
+		g->frieza.spot.x = 0;
 }
 
 int	see_player(t_game *g)
@@ -44,7 +48,7 @@ int	see_player(t_game *g)
 	t_vec2D	pos;
 
 	pos = g->goku.pos;
-	if (g->frieza.pos.x == g->goku.pos.x)
+	if (g->frieza.pos.x == pos.x)
 	{
 		while (pos.x != g->frieza.pos.x)
 		{
@@ -55,8 +59,10 @@ int	see_player(t_game *g)
 			else
 				pos.x++;
 		}
+		g->frieza.spot = pos;
+		return (1);
 	}
-	else if (g->frieza.pos.y == g->goku.pos.y)
+	else if (g->frieza.pos.y == pos.y)
 	{
 		while (pos.y != g->frieza.pos.y)
 		{
@@ -67,67 +73,72 @@ int	see_player(t_game *g)
 			else
 				pos.y++;
 		}
+		g->frieza.spot = pos;
+		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 void	move_to_spot(t_game *g)
 {
-	g->frieza.spot = g->goku.pos;
+	static int x;
 
-	while (g->frieza.pos.x != g->frieza.spot.x && g->frieza.pos.y != g->frieza.spot.y)
+	if ((g->frieza.pos.x != g->frieza.spot.x || g->frieza.pos.y != g->frieza.spot.y) && x != 1000)
 	{
-		while (g->frieza.pos.y < g->frieza.spot.y)
+		if (g->frieza.pos.y < g->frieza.spot.y)
 			move_enemy(g, 1);
-		while (g->frieza.pos.y > g->frieza.spot.y)
+		else if (g->frieza.pos.y > g->frieza.spot.y)
 			move_enemy(g, 2);
-		while (g->frieza.pos.x < g->frieza.spot.x)
+		else if (g->frieza.pos.x < g->frieza.spot.x)
 			move_enemy(g, 3);
-		while (g->frieza.pos.x > g->frieza.spot.x)
+		else if (g->frieza.pos.x > g->frieza.spot.x)
 			move_enemy(g, 4);
+		if (g->frieza.pos.x == g->frieza.spot.x && g->frieza.pos.y == g->frieza.spot.y)
+			g->frieza.spot.x = 0;
 	}
+	x++;
 }
 
 int	move_around(t_game *g)
 {
 	int	i;
+	static int x;
+	int	time;
 
+	if (see_player(g) || g->frieza.spot.x != 0)
+		time = 2000;
+	else
+		time = 4000;
 	i = (rand() % (4 - 1 + 1)) + 1;
-	mlx_key_hook(g->win, move, g);
-	if (!end(g))
+	if (!end(g) && x == time)
 	{
-		usleep(1000000);
-		if (i == 1 && !see_player(g))
+		if (see_player(g) || g->frieza.spot.x != 0)
 		{
-			while (g->frieza.pos.y + 1 != '1')
-				move_enemy(g, i);
+			if (g->frieza.spot.x != 0)
+				move_to_spot(g);
 		}
-		else if (i == 2 && !see_player(g))
-		{
-			while (g->frieza.pos.y - 1 != '1')
+		else if (i == 2)
 				move_enemy(g, i);
-		}
-		else if (i == 3 && !see_player(g))
-		{
-			while (g->frieza.pos.x + 1 != '1')
+		else if (i == 3)
 				move_enemy(g, i);
-		}
-		else if (i == 4 && !see_player(g))
-		{
-			while (g->frieza.pos.x + 1 != '1')
+		else if (i == 4)
 				move_enemy(g, i);
-		}
-		else if (see_player(g))
-			move_to_spot(g);
+		else if (i == 1)
+				move_enemy(g, i);
+		x = 0;
+		printf("%d\n", g->frieza.spot.x);
 	}
+	if (x > 4000)
+		x = 0;
+	x++;
 	return (1);
 }
 
 void	enemy_status(t_game *g, t_vec2D pos)
 {
 	g->matrix[pos.x][pos.y] = '0';
-	if (g->matrix[g->goku.pos.x][g->goku.pos.y] != 'E' && g->matrix[pos.x][pos.y] != 'A')
-		g->matrix[g->goku.pos.x][g->goku.pos.y] = 'N';
+	if (g->matrix[g->frieza.pos.x][g->frieza.pos.y] != 'E' && g->matrix[pos.x][pos.y] != 'A')
+		g->matrix[g->frieza.pos.x][g->frieza.pos.y] = 'N';
 	create_window(g);
 	put_objects(g, 0);
 	update_enemy(g, pos);
