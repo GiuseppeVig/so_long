@@ -6,7 +6,7 @@
 /*   By: gvigilan <gvigilan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:50:19 by gvigilan          #+#    #+#             */
-/*   Updated: 2024/01/30 14:15:45 by gvigilan         ###   ########.fr       */
+/*   Updated: 2024/01/31 17:31:22 by gvigilan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	move_enemy(t_game *g, int i)
 		g->frieza.spot.x = 0;
 	else if (g->matrix[pos.x][pos.y + 1] == '1' || g->matrix[pos.x][pos.y - 1] == '1')
 		g->frieza.spot.x = 0;
+	else
+		i++;
 }
 
 int	see_player(t_game *g)
@@ -108,7 +110,7 @@ int	move_around(t_game *g)
 	if (see_player(g) || g->frieza.spot.x != 0)
 		time = 2000;
 	else
-		time = 4000;
+		time = 3000;
 	i = (rand() % (4 - 1 + 1)) + 1;
 	if (!end(g) && x == time)
 	{
@@ -126,9 +128,8 @@ int	move_around(t_game *g)
 		else if (i == 1)
 				move_enemy(g, i);
 		x = 0;
-		printf("%d\n", g->frieza.spot.x);
 	}
-	if (x > 4000)
+	if (x > 3000)
 		x = 0;
 	x++;
 	return (1);
